@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Projeto {
+  id            Int             @id @default(autoincrement())
+  nome          String
+  numeroPessoas Int
+  custos        Float
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
+  PessoaProjeto PessoaProjeto[]
+}
+
+model PessoaProjeto {
+  id        Int      @id @default(autoincrement())
+  pessoaId  Int
+  projetoId Int
+  pessoa    Pessoa   @relation(fields: [pessoaId], references: [id])
+  projeto   Projeto  @relation(fields: [projetoId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pessoa {
+  id             Int             @id @default(autoincrement())
+  nome           String
+  email          String          @unique
+  sexo           String
+  dataNascimento DateTime
+  cpf            String          @unique
+  telefone       String?
+  enderecos      Endereco[]
+  cargo          Cargo?          @relation(fields: [cargoId], references: [id])
+  cargoId        Int?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  deletedAt      DateTime?
+  PessoaProjeto  PessoaProjeto[]
+}
+
+model Endereco {
+  id          Int       @id @default(autoincrement())
+  rua         String
+  numero      String
+  bairro      String
+  complemento String?
+  cidade      String
+  estado      String
+  cep         String
+  pessoa      Pessoa    @relation(fields: [pessoaId], references: [id])
+  pessoaId    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model Cargo {
+  id           Int       @id @default(autoincrement())
+  nome         String
+  valorPorHora Float
+  pessoas      Pessoa[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+}
