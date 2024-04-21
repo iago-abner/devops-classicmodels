@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE `Projeto` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `numeroPessoas` INTEGER NOT NULL,
     `custos` DOUBLE NOT NULL,
@@ -13,9 +13,9 @@ CREATE TABLE `Projeto` (
 
 -- CreateTable
 CREATE TABLE `PessoaProjeto` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `pessoaId` INTEGER NOT NULL,
-    `projetoId` INTEGER NOT NULL,
+    `id` VARCHAR(191) NOT NULL,
+    `pessoaId` VARCHAR(191) NOT NULL,
+    `projetoId` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
@@ -24,22 +24,26 @@ CREATE TABLE `PessoaProjeto` (
 
 -- CreateTable
 CREATE TABLE `Pessoa` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
+    `sexo` ENUM('Masculino', 'Feminino') NOT NULL,
+    `dataNascimento` DATETIME(3) NOT NULL,
+    `cpf` VARCHAR(191) NOT NULL,
     `telefone` VARCHAR(191) NULL,
-    `cargoId` INTEGER NULL,
+    `cargoId` VARCHAR(191) NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
 
     UNIQUE INDEX `Pessoa_email_key`(`email`),
+    UNIQUE INDEX `Pessoa_cpf_key`(`cpf`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Endereco` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `rua` VARCHAR(191) NOT NULL,
     `numero` VARCHAR(191) NOT NULL,
     `bairro` VARCHAR(191) NOT NULL,
@@ -47,7 +51,7 @@ CREATE TABLE `Endereco` (
     `cidade` VARCHAR(191) NOT NULL,
     `estado` VARCHAR(191) NOT NULL,
     `cep` VARCHAR(191) NOT NULL,
-    `pessoaId` INTEGER NOT NULL,
+    `pessoaId` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -57,7 +61,7 @@ CREATE TABLE `Endereco` (
 
 -- CreateTable
 CREATE TABLE `Cargo` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `nome` VARCHAR(191) NOT NULL,
     `valorPorHora` DOUBLE NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

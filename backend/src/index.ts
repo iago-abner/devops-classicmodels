@@ -1,50 +1,13 @@
-import { prisma } from "./lib/prisma";
+import express from "express";
+import { routes } from "./routes";
 
-async function main() {
-  const pessoas = await prisma.pessoa.count();
-  console.log(pessoas);
-}
+const app = express();
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-// import express from "express";
+app.use(routes);
 
-// const app = express();
-
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-
-// app.get("/", (_, res) => {
-//   res.send("Hello World!");
-// });
-
-// async function main() {
-//   await prisma.user.create({
-//     data: {
-//       name: "Alice",
-//       email: "alice@prisma.io",
-//       posts: {
-//         create: { title: "Hello World" },
-//       },
-//       profile: {
-//         create: { bio: "I like turtles" },
-//       },
-//     },
-//   });
-
-//   const allUsers = await prisma.user.findMany({
-//     include: {
-//       posts: true,
-//       profile: true,
-//     },
-//   });
-//   console.dir(allUsers, { depth: null });
-// }
+app.listen(3000, () => {
+  console.log("Server is running on port 3000");
+});

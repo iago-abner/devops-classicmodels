@@ -14,10 +14,8 @@ datasource db {
 }
 
 model Projeto {
-  id            Int             @id @default(autoincrement())
+  id            String          @id @default(uuid())
   nome          String
-  numeroPessoas Int
-  custos        Float
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   deletedAt     DateTime?
@@ -25,26 +23,31 @@ model Projeto {
 }
 
 model PessoaProjeto {
-  id        Int      @id @default(autoincrement())
-  pessoaId  Int
-  projetoId Int
+  id        String   @id @default(uuid())
+  pessoaId  String
+  projetoId String
   pessoa    Pessoa   @relation(fields: [pessoaId], references: [id])
   projeto   Projeto  @relation(fields: [projetoId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+enum Sexo {
+  Masculino
+  Feminino
+}
+
 model Pessoa {
-  id             Int             @id @default(autoincrement())
+  id             String          @id @default(uuid())
   nome           String
   email          String          @unique
-  sexo           String
+  sexo           Sexo
   dataNascimento DateTime
   cpf            String          @unique
   telefone       String?
   enderecos      Endereco[]
   cargo          Cargo?          @relation(fields: [cargoId], references: [id])
-  cargoId        Int?
+  cargoId        String?
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
   deletedAt      DateTime?
@@ -52,7 +55,7 @@ model Pessoa {
 }
 
 model Endereco {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   rua         String
   numero      String
   bairro      String
@@ -61,14 +64,14 @@ model Endereco {
   estado      String
   cep         String
   pessoa      Pessoa    @relation(fields: [pessoaId], references: [id])
-  pessoaId    Int
+  pessoaId    String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
 }
 
 model Cargo {
-  id           Int       @id @default(autoincrement())
+  id           String    @id @default(uuid())
   nome         String
   valorPorHora Float
   pessoas      Pessoa[]
