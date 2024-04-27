@@ -1,0 +1,35 @@
+# Use a imagem oficial do Node.js como base
+FROM node:14 as build
+
+# Defina o diretório de trabalho no container
+WORKDIR /usr/src/app
+
+# Copie os arquivos package.json e package-lock.json
+COPY package*.json ./
+
+# Instale as dependências do projeto
+RUN npm install
+
+# Copie o restante dos arquivos do projeto
+COPY . .
+
+# Compile o projeto
+RUN npm run build
+
+# Inicie uma nova etapa de build
+# FROM node:14
+
+# WORKDIR /usr/src/app
+
+# # Copie os arquivos necessários da etapa de build anterior
+# COPY --from=build /usr/src/app/dist ./dist
+# COPY package*.json ./
+
+# # Instale apenas as dependências de produção
+# RUN npm ci --only=production
+
+# Exponha a porta que a aplicação usa
+EXPOSE 3000
+
+# Comando para iniciar a aplicação
+CMD [ "node", "dist/index.js" ]

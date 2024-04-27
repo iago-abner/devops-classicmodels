@@ -1,19 +1,18 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Build Docker image - backend') {
             steps {
-                echo 'Building..'
+                script {
+                  dockerapp = docker.build("iagoabner/backend-classicmodels:${env.BUILD_ID}", "-f ../backend/dockerfile .")
+                }
             }
         }
-        stage('Test') {
+        stage('Build Docker image - frontend') {
             steps {
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
+                script {
+                  dockerapp = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ../frontend/dockerfile .")
+                }
             }
         }
     }

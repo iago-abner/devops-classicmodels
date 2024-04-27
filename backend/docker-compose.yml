@@ -1,0 +1,10 @@
+version: "3"
+
+services:
+  backend-classic:
+    build:
+      context: .
+    container_name: backend-classic
+    restart: always
+    ports:
+      - "3000:3000"
