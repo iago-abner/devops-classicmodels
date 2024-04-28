@@ -1,5 +1,5 @@
 # Use a imagem oficial do Node.js como base
-FROM node:14 as build
+FROM node:21.7.3-alpine as build
 
 # Defina o diretório de trabalho no container
 WORKDIR /usr/src/app
@@ -7,8 +7,17 @@ WORKDIR /usr/src/app
 # Copie os arquivos package.json e package-lock.json
 COPY package*.json ./
 
+# Copie o arquivo .env
+COPY .env ./
+
 # Instale as dependências do projeto
 RUN npm install
+
+# Copie os arquivos Prisma
+COPY prisma ./prisma
+
+# Gere o cliente Prisma
+RUN npx prisma generate
 
 # Copie o restante dos arquivos do projeto
 COPY . .
@@ -17,16 +26,18 @@ COPY . .
 RUN npm run build
 
 # Inicie uma nova etapa de build
-# FROM node:14
+FROM node:21.7.3-alpine
 
-# WORKDIR /usr/src/app
+WORKDIR /usr/src/app
 
-# # Copie os arquivos necessários da etapa de build anterior
-# COPY --from=build /usr/src/app/dist ./dist
-# COPY package*.json ./
+# Copie os arquivos necessários da etapa de build anterior
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/prisma ./prisma
+COPY --from=build /usr/src/app/.env ./
+COPY package*.json ./
 
-# # Instale apenas as dependências de produção
-# RUN npm ci --only=production
+# Instale apenas as dependências de produção
+RUN npm ci --only=production
 
 # Exponha a porta que a aplicação usa
 EXPOSE 3000
