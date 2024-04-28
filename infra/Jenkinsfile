@@ -4,14 +4,34 @@ pipeline {
         stage('Build Docker image - backend') {
             steps {
                 script {
-                  dockerapp = docker.build("iagoabner/backend-classicmodels:${env.BUILD_ID}", "-f ../backend/dockerfile .")
+                  dockerbackend = docker.build("iagoabner/backend-classicmodels:${env.BUILD_ID}", "-f ../backend/dockerfile .")
                 }
             }
         }
         stage('Build Docker image - frontend') {
             steps {
                 script {
-                  dockerapp = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ../frontend/dockerfile .")
+                  dockerfront = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ../frontend/dockerfile .")
+                }
+            }
+        }
+        stage ('Push backend image - DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        dockerbackend.push('latest')
+                        dockerbackend.push("${env.BUILD_ID}")
+                    }
+                }
+            }
+        }
+        stage ('Push frontend image - DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+                        dockerfront.push('latest')
+                        dockerfront.push("${env.BUILD_ID}")
+                    }
                 }
             }
         }
