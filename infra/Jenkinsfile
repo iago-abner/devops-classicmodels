@@ -4,14 +4,14 @@ pipeline {
         stage('Build Docker image - backend') {
             steps {
                 script {
-                  dockerbackend = docker.build("iagoabner/backend-classicmodels:${env.BUILD_ID}", "-f ../backend/dockerfile .")
+                  dockerbackend = docker.build("iagoabner/backend-classicmodels:${env.BUILD_ID}", "-f ./backend/dockerfile .")
                 }
             }
         }
         stage('Build Docker image - frontend') {
             steps {
                 script {
-                  dockerfront = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ../frontend/dockerfile .")
+                  dockerfront = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ./frontend/dockerfile .")
                 }
             }
         }
