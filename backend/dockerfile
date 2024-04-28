@@ -40,7 +40,7 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 # Exponha a porta que a aplicação usa
-EXPOSE 3000
+EXPOSE 4242
 
 # Comando para iniciar a aplicação
 CMD [ "node", "dist/index.js" ]

@@ -12,6 +12,6 @@ app.get("health-check", (_, res) => {
 
 app.use(routes);
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+app.listen(4242, () => {
+  console.log("Server is running on port 4242");
 });
