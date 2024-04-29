@@ -10,21 +10,21 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker image - frontend') {
-            steps {
-                dir('frontend') {
-                    script {
-                        dockerfront = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ./dockerfile .")
-                    }
-                }
-            }
-        }
         stage ('Push backend image - DockerHub') {
             steps {
                 script {
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         dockerbackend.push('latest')
                         dockerbackend.push("${env.BUILD_ID}")
+                    }
+                }
+            }
+        }
+        stage('Build Docker image - frontend') {
+            steps {
+                dir('frontend') {
+                    script {
+                        dockerfront = docker.build("iagoabner/frontend-classicmodels:${env.BUILD_ID}", "-f ./dockerfile .")
                     }
                 }
             }

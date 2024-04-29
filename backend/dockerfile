@@ -7,9 +7,6 @@ WORKDIR /usr/src/app
 # Copie os arquivos package.json e package-lock.json
 COPY package*.json ./
 
-# Copie o arquivo .env
-COPY .env ./
-
 # Instale as dependências do projeto
 RUN npm install
 
@@ -33,7 +30,6 @@ WORKDIR /usr/src/app
 # Copie os arquivos necessários da etapa de build anterior
 COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/prisma ./prisma
-COPY --from=build /usr/src/app/.env ./
 COPY package*.json ./
 
 # Instale apenas as dependências de produção
