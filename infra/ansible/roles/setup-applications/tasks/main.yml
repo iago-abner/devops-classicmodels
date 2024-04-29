@@ -19,6 +19,6 @@
   tags:
     - deploy-applications
   docker_compose:
-    project_src: /opt/applications/
+    project_src: /opt/applications
     files:
       - docker-compose.yml
