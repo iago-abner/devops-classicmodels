@@ -1,4 +1,4 @@
 ---
 # tasks file for deploy-applications
 - name: Create containers
-  shell: "docker compose -f /opt/service-hasuras-core/docker-compose.yaml up -d"
+  shell: "docker compose -f /opt/applications/docker-compose.yml up -d"

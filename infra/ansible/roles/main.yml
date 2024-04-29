@@ -2,8 +2,8 @@
   hosts: production
   become: yes
   roles:
-    # - install-docker
-    # - install-k8s
+    - install-docker
+    - install-k8s
     # - install-jenkins
-    # - pull-images
     - setup-applications
+    - deploy-applications
