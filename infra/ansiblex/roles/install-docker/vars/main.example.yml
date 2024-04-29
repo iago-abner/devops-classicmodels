@@ -1,0 +1,4 @@
+# vars file
+---
+DOCKER_HUB_PASSWORD: chave
+DOCKER_HUB_USERNAME: user

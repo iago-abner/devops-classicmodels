@@ -1,0 +1,14 @@
+---
+- name: Ensure SSH directory exists for the user
+  become_user: "root"
+  file:
+    path: "~/.ssh"
+    state: directory
+    mode: "0700"
+
+- name: Copy SSH public key to authorized_keys file
+  become_user: "root"
+  authorized_key:
+    user: "root"
+    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+    state: present

@@ -1,0 +1,6 @@
+---
+- name: Clone a Git repository
+  git:
+    repo: https://exemplo.com/seu-repositorio.git
+    dest: /caminho/para/destino
+    version: master

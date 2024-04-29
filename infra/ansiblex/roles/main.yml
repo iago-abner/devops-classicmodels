@@ -1,0 +1,6 @@
+- name: "Execute tasks for production environment"
+  hosts: production
+  become: yes
+  roles:
+    - install-docker
+    - pull-images
