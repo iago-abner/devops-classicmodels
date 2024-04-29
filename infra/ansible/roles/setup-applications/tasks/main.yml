@@ -1,0 +1,24 @@
+---
+- name: create volume directories
+  file:
+    path: /opt/applications/classicmodels
+    state: directory
+
+- name: copy docker-compose to remote host
+  tags:
+    - deploy-applications
+  copy:
+    src: "{{item}}"
+    dest: "/opt/applications/{{item}}"
+  loop:
+    - db
+    - docker-compose.yml
+    - .env
+
+- name: Create a data container
+  tags:
+    - deploy-applications
+  docker_compose:
+    project_src: /opt/applications/
+    files:
+      - docker-compose.yml

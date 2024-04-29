@@ -1,0 +1,45 @@
+version: "3"
+services:
+  frontend-classic:
+    image: iagoabner/frontend-classicmodels:latest
+    container_name: frontend-classic
+    restart: always
+    ports:
+      - "3000:3000"
+  backend-classic:
+    image: iagoabner/backend-classicmodels:latest
+    container_name: backend-classic
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "4242:4242"
+  db:
+    image: mysql
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: "classicmodels"
+      MYSQL_ROOT_PASSWORD: "123123"
+    volumes:
+      - ./db/db-data:/var/lib/mysql
+      - ./db/classicmodels.sql:/docker-entrypoint-initdb.d/classicmodels.sql
+    ports:
+      - 3306:3306
+  jenkins:
+    image: iagoabner/jenkins:1
+    container_name: jenkins
+    restart: on-failure
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - ./jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      JENKINS_OPTS: --httpPort=8080
+
+volumes:
+  jenkins_home:

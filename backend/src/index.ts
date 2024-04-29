@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
-app.get("health-check", (_, res) => {
+app.get("/", (_, res) => {
   res.send("OK");
 });
 
