@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: iagoabner/frontend-classicmodels:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: frontend-env
+          volumeMounts:
+            - name: frontend-volume
+              mountPath: /usr/src/app/
+      volumes:
+        - name: frontend-volume
+          configMap:
+            - name: frontend-config
+              items:
+                - key: frontend-config.json
+                  path: frontend-config.json
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - name: frontend-service-port
+      protocol: TCP
+      port: 80
+      targetPort: 3000

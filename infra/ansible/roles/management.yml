@@ -1,0 +1,5 @@
+- name: "Management environment setup tasks"
+  hosts: management
+  become: yes
+  roles:
+    - install-jenkins
