@@ -1,25 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Build Docker image - backend') {
-            steps {
-                dir('backend') {
-                    script {
-                        dockerbackend = docker.build("iagoabner/backend-classicmodels:${env.BUILD_ID}", "-f ./dockerfile .")
-                    }
-                }
-            }
-        }
-        stage ('Push backend image - DockerHub') {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-                        dockerbackend.push('latest')
-                        dockerbackend.push("${env.BUILD_ID}")
-                    }
-                }
-            }
-        }
         stage('Build Docker image - frontend') {
             steps {
                 dir('frontend') {
