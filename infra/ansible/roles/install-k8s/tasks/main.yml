@@ -1,5 +1,4 @@
 ---
-# tasks file for install-k8s
 - name: Install kubectl
   shell: |
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -7,3 +6,16 @@
     sudo mv kubectl /usr/local/bin/
   args:
     executable: /bin/bash
+
+- name: create volume directories
+  file:
+    path: /opt/k8s
+    state: directory
+
+- name: Transfer Kubernetes deployment file to the server
+  become: yes
+  copy:
+    src: "{{item}}"
+    dest: "/opt/k8s/{{item}}"
+  loop:
+    - deployment.yml

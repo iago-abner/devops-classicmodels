@@ -1,8 +1,7 @@
 - name: "Execute setup tasks for production environment"
-  hosts: production
+  hosts: homologation
   become: yes
   roles:
     - install-docker
     - install-k8s
-    - install-jenkins
-    - setup-applications
+    # - setup-gcloud

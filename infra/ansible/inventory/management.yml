@@ -1,4 +1,4 @@
-production:
+management:
   hosts:
     control:
       ansible_host: 34.86.239.250

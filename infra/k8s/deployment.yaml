@@ -14,23 +14,9 @@ spec:
     spec:
       containers:
         - name: frontend-container
-          image: iagoabner/frontend-classicmodels:latest
+          image: iagoabner/frontend-classicmodels:{{tag}}
           ports:
             - containerPort: 3000
-          envFrom:
-            - configMapRef:
-                name: frontend-env
-          volumeMounts:
-            - name: frontend-volume
-              mountPath: /usr/src/app/
-      volumes:
-        - name: frontend-volume
-          configMap:
-            - name: frontend-config
-              items:
-                - key: frontend-config.json
-                  path: frontend-config.json
-
 ---
 apiVersion: v1
 kind: Service

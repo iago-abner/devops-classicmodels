@@ -1,0 +1,28 @@
+---
+- name: Download gcloud SDK
+  shell: "curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-473.0.0-linux-x86_64.tar.gz"
+
+- name: Extract gcloud SDK
+  shell: "tar -xf google-cloud-cli-473.0.0-linux-x86_64.tar.gz"
+
+- name: Add gcloud SDK to path
+  shell: "./google-cloud-sdk/install.sh"
+
+- name: Initialize gcloud SDK install script
+  shell: "./google-cloud-sdk/bin/gcloud init --quiet --console-only"
+
+- name: Add export USE_GKE_GCLOUD_AUTH_PLUGIN to ~/.bashrc
+  ansible.builtin.lineinfile:
+    path: ~/.bashrc
+    line: "export USE_GKE_GCLOUD_AUTH_PLUGIN=True"
+    insertafter: EOF
+    state: present
+
+- name: Source ~/.bashrc
+  ansible.builtin.shell: source ~/.bashrc
+
+- name: Update gcloud components
+  shell: "gcloud components update"
+
+- name: Install gke-gcloud-auth-plugin
+  shell: "gcloud components install gke-gcloud-auth-plugin"
