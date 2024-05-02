@@ -1,7 +1,0 @@
-teste:
-  hosts:
-    control:
-      ansible_host: 34.48.93.190
-      ansible_user: iagoabner.dev
-  vars:
-    ansible_ssh_private_key_file: ~/.ssh/gcp

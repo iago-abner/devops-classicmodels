@@ -2,4 +2,5 @@
   hosts: management
   become: yes
   roles:
+    - install-docker
     - install-jenkins
